@@ -1,0 +1,580 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,600);
+
+body {
+  font-family:'Open Sans', sans-serif;
+}
+
+
+#gfd-container {
+  margin: 10px auto 10px;
+  width: 940px;
+  padding-bottom: 50px;
+}
+
+#gfd-header {
+  position: relative;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 23px;
+  padding-bottom: 14px;
+}
+
+#gfd-header > span {
+  font-size: 30px;
+  color:#444;
+}
+
+
+#gfd-artboard {
+  position: relative;
+  float: left;
+  width: 762px;
+  height: 618px;
+  -webkit-user-select: none;  
+  overflow:hidden;
+}
+
+
+/* Toolbar */
+#gfd-toolbar {
+  margin-left: 762px;
+  padding-left: 18px;
+  min-height: 618px;
+}
+
+#gfd-toolbar .label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #5e94ff;
+  margin-bottom: 8px;
+}
+
+#gfd-toolbar .tool {
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 400;
+  border-bottom: 1px solid #ccc;
+  color: #444;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+#gfd-toolbar .tool:first-child {
+  border-top: 1px solid #ccc;
+}
+
+#gfd-toolbar .tool div {
+  outline: none;
+}
+
+#gfd-toolbar .tool .goog-zippy-header {
+  font-size: 13px;
+  font-weight: 400;
+}
+
+#gfd-toolbar .tool .goog-zippy-header div {
+  float:left;
+  line-height: 30px;
+}
+
+#gfd-toolbar .tool .goog-zippy-header div:first-child {
+  padding-right: 4px;
+}
+
+#gfd-toolbar .tool .goog-zippy-header {
+  display:inline-block;
+}
+
+#gfd-toolbar .tool .goog-zippy-header:after {
+  content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
+}
+
+#gfd-toolbar .tool.selected > div:first-child/*, #gfd-toolbar .tool:hover > div:first-child*/ {
+  font-weight: 600;
+}
+
+#gfd-toolbar .tool.selected > div:nth-child(2) {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+#gfd-toolbar .tool.selected {
+  cursor: auto;
+}
+
+#gfd-toolbar .tool .icon {
+  background: url('../images/menu_gray.png') no-repeat;
+  -webkit-background-clip: content-box;
+}
+
+#gfd-toolbar .tool:hover .icon, #gfd-toolbar .tool.selected .icon {
+  background-image: url('../images/menu_color.png');
+}
+
+
+#gfd-filter-info {
+  font-size: 13px;
+  margin-top: 14px;
+  -webkit-transition: opacity 0.2s ease-in-out;
+}
+
+#gfd-filter-info-css {
+  margin-top: 14px;
+  margin-bottom: 14px;
+  font-family: monaco, monospace;
+  font-size: 11px;
+  color: #660;
+}
+
+#gfd-filter-info-desc {
+  font-size: 12px;
+}
+
+/* CSS Code Highlighting */
+#gfd-filter-info-css .element-name {
+  color: black;
+}
+
+#gfd-filter-info-css .effect-name {
+  color: #080;
+}
+
+#gfd-filter-info-css .filter-name {
+  color: #008;
+}
+
+#gfd-filter-info-css .filter-value {
+  color: #066;
+}
+
+
+/* Options */
+
+#gfd-options {
+  position: absolute;
+  /*display: table;*/
+  width: 762px;
+  top: 668px;
+  z-index: 1000;
+}
+
+#gfd-palettes {
+  left: 32px;
+}
+
+#gfd-backgrounds {
+  left: 272px;
+}
+
+#gfd-effects {
+  left: 511px;
+}
+
+.gfd-options {
+  position:absolute;
+  display: inline-block;
+  top:0px;
+  text-align: left;
+  color:#444;
+  font-size: 13px;
+  font-weight: 400;
+  width: 220px;
+  padding: 2px;
+  cursor: hand;
+  background: #fff;
+  box-shadow:0px 0px 5px rgba(0,0,0,0.5);
+}
+
+.gfd-options-header {
+  padding: 3px;
+  width: 100%;
+  outline: none;
+}
+
+.gfd-options-header-open {
+
+}
+
+.gfd-options-content > div {
+  padding: 3px;
+}
+
+.gfd-options-selection {
+  font-style: italic;  
+  color:#aaa;
+}
+
+
+#gfd-help {
+  padding: 28px;
+  position:absolute;
+  left: 52px;
+  top: 48px;
+  z-index: 4000;
+  width: 700px;
+  background: #fff;
+  box-shadow:0px 0px 5px rgba(0,0,0,0.4);
+  color: #444;
+  font-size: 13px;
+  border: 1px solid #dbdbdb;
+  -webkit-transition: opacity 0.2s ease-in-out;
+  opacity: 0;
+}
+
+#gfd-help:before {
+  position:absolute;
+  content: url(../images/arrow.png);
+  left:425px;
+  top: -11px;
+}
+
+#gfd-help > h1 {
+  margin: 0;
+  font-size: 16px;
+}
+
+#gfd-help > p {
+  font-size: 13px;
+}
+
+#gfd-help-button {
+  position: relative;
+  left: 15px;
+  top: 4px;
+  cursor: pointer;
+}
+
+
+#gfd-help .examples .name {
+ font-weight: 600; 
+ padding-bottom: 5px;
+}
+
+#gfd-help .examples > div {
+  width: 218px;
+  margin-right: 17px;  
+  display:inline-block;
+  vertical-align: top;
+}
+
+#gfd-help .examples > div:last-child {
+  margin-right: 0px;  
+  
+}
+
+#gfd-help .example{
+  display: inline-block;
+  width: 220px;
+  height: 163px;
+  background-image: url(../images/examples.jpg);
+  border: 1px solid #dbdbdb;
+  margin-bottom: 5px;
+}
+
+#gfd-help .draw {
+  background-position: 0px 0px;
+}
+
+#gfd-help .explore {
+  background-position: -220px 0px;
+}
+
+#gfd-help .share {
+  background-position: -440px 0px;
+}
+  
+  
+  
+
+
+#gfd-save {
+  float: right;
+  font-size: 13px;
+  background-image: -webkit-linear-gradient(top,#008DFD 0,#0370EA 100%);
+  border: 1px solid #076BD2;
+  border-radius: 3px;
+  color: white !important;
+  display: inline-block;
+  line-height: 1.3;
+  padding: 8px 25px;
+  margin-top: 6px;
+  text-align: center;
+  text-shadow: 1px 1px 1px #076BD2;
+  cursor: pointer;
+}
+
+#gfd-save:hover {
+background-image: -webkit-linear-gradient(top,#4d90fe  ,#357ae8  );
+}
+
+
+
+
+.gfd-palette-icon {
+  display: inline-block;
+  border-collapse: collapse;
+  width: 13px;
+  height: 13px;
+  table-layout:fixed;
+  margin-left: 2px;
+  margin-right: 6px;
+  border-right: 1px solid #666;
+  border-bottom: 1px solid #666;
+  border-top: 1px solid #aaa;
+  border-left: 1px solid #aaa;
+}
+
+.gfd-palette-icon td {
+  border: 0;
+  padding: 0;
+  width: 4px;
+  height: 4px;
+  /*-webkit-transition: background-color 0.7s;*/
+}
+
+
+
+
+.gfd-effect-filter-label {
+  font-size: 8px;
+  position:absolute;
+  right: 0px;
+  top: 0px;
+  letter-spacing: 1px;
+}
+
+.gfd-effect-filter {
+  position:relative;
+  padding-bottom: 3px;
+}
+
+
+#gfd-effects .gfd-effect-content {
+  font-size: 11px;
+}
+
+
+
+#gfd-effects-header-add {
+  position: absolute;
+  right: 10;
+}
+
+.gfd-effect-label {
+  height: 20px;
+  padding-top: 5px;
+  border-top: 1px solid rgba(0,0,0,0.1);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.gfd-draw-canvas {
+  position: absolute;
+  z-index: 500;
+}
+
+.gfd-art-element {
+  position: absolute;
+  -webkit-user-select: none; /* Prevent selection when dragging */
+  -webkit-transition: -webkit-filter 1s linear;
+}/* the photo to be animated via filters */
+.gfd-effect-hue-cycle {
+  -webkit-animation: hue-rotate-anim 2s linear infinite alternate;
+}
+
+.gfd-effect-plasma {
+  -webkit-animation: plasma-anim 5s linear infinite;
+}
+
+.gfd-effect-blur {
+  -webkit-filter: blur(50px) contrast(200%);
+}
+
+.gfd-effect-neon {
+  -webkit-filter: invert(10%) saturate(1000%);
+}
+
+.gfd-effect-xray {
+  -webkit-animation: invert-anim 1s linear infinite alternate;
+}
+
+.gfd-effect-benglis {
+  -webkit-filter: blur(10px) contrast(200%) invert(30%) saturate(800%);
+}
+
+.gfd-effect-architect {
+  -webkit-filter: sepia(80%) hue-rotate(300deg) saturate(20%) contrast(150%);
+}
+
+.gfd-effect-dostoevsky {
+  -webkit-animation: dostoevsky-anim 0.5s linear infinite;
+}
+
+.gfd-effect-pastels {
+  -webkit-filter: grayscale(40%) brightness(-47%) invert(89%) saturate(800%);
+}
+
+.gfd-effect-airbrush {
+  -webkit-filter: blur(10px) brightness(10%);
+}
+
+.gfd-effect-haze {
+  -webkit-filter: blur(40px) brightness(-6%) contrast(690%);
+}
+
+@-webkit-keyframes hue-rotate-anim {
+  0% {
+    -webkit-filter: hue-rotate(0deg);
+  }
+  100% {
+    -webkit-filter: hue-rotate(360deg);
+  }
+}
+
+@-webkit-keyframes dostoevsky-anim {
+ from {
+    -webkit-filter: invert(49%) contrast(300%) sepia(100%) saturate(400%) hue-rotate(0deg);
+ }
+ 
+ to {
+ 	-webkit-filter: invert(49%) contrast(300%) sepia(100%) saturate(400%) hue-rotate(360deg);
+ }
+}
+
+
+
+@-webkit-keyframes plasma-anim {
+  0% {
+    -webkit-filter: hue-rotate(0deg) blur(20px) contrast(1000%);
+  }
+  100% {
+    -webkit-filter: hue-rotate(360deg) blur(20px) contrast(1000%);
+  }
+}
+
+@-webkit-keyframes invert-anim {
+  0% {
+    -webkit-filter: invert(0%) grayscale(100%) contrast(300%);
+  }
+  
+  40% {
+    -webkit-filter: invert(0%) grayscale(100%) contrast(300%);
+  }
+  
+  60% {
+    -webkit-filter: invert(100%) grayscale(100%) contrast(300%);
+  }
+
+  100% {
+    -webkit-filter: invert(100%) grayscale(100%) contrast(300%);
+  }
+}
+/* Start sprite Sprite Sheet Styles */#gfd-toolbar .tool .icon.cutout-painter { background-position: 0px 0px; height: 30px; width: 45px; }#gfd-toolbar .tool .icon.rainbow-surfer { background-position: 0px -30px; height: 30px; width: 45px; }#gfd-toolbar .tool .icon.line-splatter { background-position: 0px -60px; height: 30px; width: 45px; }#gfd-toolbar .tool .icon.gesture-shaper { background-position: 0px -90px; height: 30px; width: 45px; }#gfd-toolbar .tool .icon.delete { background-position: 0px -120px; height: 30px; width: 45px; }#gfd-toolbar .tool .icon.randomize { background-position: 0px -150px; height: 30px; width: 45px; }#gfd-toolbar .tool .icon.eyedropper { background-position: 0px -180px; height: 30px; width: 45px; }#gfd-toolbar .tool .icon.transform { background-position: -45px 0px; height: 30px; width: 45px; }/* End sprite Sprite Sheet Styles */.goog-slider-horizontal {
+    outline: none;
+      position: relative;
+      top: 8px;
+      width: 140px;
+      height: 10px;
+      background: -webkit-linear-gradient(top, rgba(0,0,0,0) 5px, 
+                                               rgba(0,0,0,1) 5px, 
+                                               rgba(0,0,0,1) 6px, 
+                                               rgba(120,120,120,0.6) 7px,
+                                               rgba(0,0,0,0) 7px);
+      margin-bottom: 8px;
+    }
+    
+    .goog-slider-thumb {
+      border-radius: 3px;
+      position: absolute;
+      background: rgb(70,70,70);
+      border-top: 1px solid rgb(80,80,80);
+      border-bottom: 1px solid rgb(80,80,80);
+      -webkit-box-shadow: 0px 0px 2px rgba(0,0,0,0.8);
+      top: 2px;
+      width: 16px;
+      height: 5px;
+    }
+
+    .goog-slider-disabled {
+      background-color: lightgray
+    }
+    
+    
+    .gfd-drag-effect {
+      z-index: 500;
+    }
+    
+    
+    
+    
+/*
+ * Standard styling for goog.ui.Dialog.
+ *
+ * @author ssaviano@google.com (Steven Saviano)
+ * @author attila@google.com (Attila Bodis)
+ */
+
+
+.modal-dialog {
+  color:#444;
+  font-size: 12px;
+  font-weight: 400;
+  width: 400px;
+  border: 1px solid #444;
+  background: #fff;
+  box-shadow:0px 0px 5px rgba(0,0,0,0.5);
+  padding: 4px;
+  position: absolute;
+  z-index: 5000;
+}
+
+.modal-dialog a,
+.modal-dialog a:link,
+.modal-dialog a:visited  {
+  color: #06c;
+  cursor: pointer;
+}
+
+.modal-dialog-bg {
+  background: #000;
+  left: 0;
+  position: absolute;
+  top: 0;
+  z-index:4999;
+}
+
+.modal-dialog-title {
+  
+  cursor: pointer;
+
+
+  /* Add padding on the right to ensure the close button has room. */
+  padding: 8px 31px 8px 8px;
+
+  position: relative;
+  _zoom: 1; /* Ensures proper width in IE6 RTL. */
+}
+
+.modal-dialog-title-close {
+  /* Client apps may override the URL at which they serve the sprite. */
+  /*background: #e0edfe url(//ssl.gstatic.com/editor/editortoolbar.png) no-repeat -528px 0;*/
+  cursor: default;
+  height: 15px;
+  position: absolute;
+  right: 10px;
+  top: 8px;
+  width: 15px;
+  vertical-align: middle;
+}
+
+.modal-dialog-buttons,
+.modal-dialog-content {
+  padding: 8px;
+}
+
+.goog-buttonset-default {
+  font-weight: bold;
+}

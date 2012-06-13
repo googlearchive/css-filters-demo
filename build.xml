@@ -1,0 +1,225 @@
+<?xml version="1.0"?>
+<project name="GoogleFilters" default="launch_debug" basedir=".">
+	
+	<target name="generate_palettes">
+		  <fileset id="allPals" dir="${basedir}/pals">
+		    <include name="**/*" />
+		  </fileset>
+
+		<property name="palsrc" location="${basedir}/js/ArtistPalettes.js"/>
+		<script language="javascript">
+        var t = java.io.File.createTempFile('pals', 'js');
+			  var w = new java.io.PrintWriter(t);
+			  w.println("goog.provide('gfd.ArtistPalettes');\n");
+			  w.println("goog.require('gfd.Color');\n");
+			  w.println("/**");
+			  w.println(" * Enum for auto-generated artist palettes.");
+			  w.println(" * @enum {Array.&lt;gfd.Color&gt;}");
+			  w.println(" */");
+			  w.println("gfd.ArtistPalettes = {");
+			  var count = 0;
+		    var srcFiles = allPals.getDirectoryScanner(project).getIncludedFiles();
+		    for (var i = srcFiles.length - 1; i != -1; i--) {
+		      var filename = allPals.dir + "/" + srcFiles[i];
+		      var r = new java.io.RandomAccessFile(filename, 'r');
+			    r.seek(769);
+			    var numColors = r.readUnsignedByte();
+			    r.seek(0);
+		      if (numColors) {
+		        var str = "";
+		        w.println("\n  /* Imported from " + srcFiles[i] + " */");
+		        var varName = srcFiles[i].substr(0, srcFiles[i].lastIndexOf('.')).toLowerCase();
+		        varName = "'" + varName.replace(/_/g,'-') + "'";
+		        w.print("  " + (count ? ',' : '') + varName + " : [");
+		        for (var j = 0; j != numColors; j++) {
+			        if (!(j % 4)) str += "\n    ";
+			        str += "new gfd.Color(" + r.readUnsignedByte() + "," + r.readUnsignedByte() + "," + r.readUnsignedByte() + "),";
+			      }
+		
+			      str = str.substr(0, str.length - 1);
+			      w.print(str + "]");
+			     count++;
+		      }
+			    r.close();
+			  }
+			  w.println("\n};");
+			  w.close();
+			  t.renameTo(new java.io.File(palsrc));
+		</script>
+	</target>
+	
+  <target name="debug" depends="generate_palettes">
+    <delete dir="${basedir}/debug"/>
+    <mkdir dir="${basedir}/debug"/>
+  	<mkdir dir="${basedir}/debug/js"/>
+        
+  	<!-- build js, put includes into wrapper -->
+  	<property name="wrapper" location="${basedir}/js/Wrapper.js"/>
+    <property name="gfd" location="${basedir}/debug/js/gfd.js"/>
+  	<script language="javascript">
+      var regexp = /\/\/#include\s*(.*)/;
+  		var t = java.io.File.createTempFile('wrapper', 'js');
+      var w = new java.io.PrintWriter(t);
+  	  var r = new java.io.BufferedReader(new java.io.FileReader(wrapper));
+      var line;
+      while (line = r.readLine()) {
+        m = regexp.exec(line);
+        if (m) {
+  	      var importReader = new java.io.BufferedReader(new java.io.FileReader(basedir + "/js/" + m[1]));
+  	      w.println("\n  /* Imported from " + m[1] + "*/\n");
+  	      while(line = importReader.readLine()) { w.println("  " + line); }
+  		    w.println("\n\n");
+          importReader.close();
+        } else {
+          w.println(line);
+  		  }
+  		}
+  		
+      r.close();
+      w.close();
+  		t.renameTo(new java.io.File(gfd));
+    </script>
+
+  	<copy todir="${basedir}/debug/js">
+      <fileset dir="${basedir}/external-js">
+         <include name="**/*" />
+      </fileset>
+    </copy>
+
+     <!-- copy in css -->
+    <concat destfile="${basedir}/debug/css/gfd.css">
+      <fileset dir="${basedir}/css">
+         <include name="*.css" />
+      </fileset>
+    </concat>
+  	
+  	<copy todir="${basedir}/debug/css">
+      <fileset dir="${basedir}/css">
+         <include name="**/*.fs" />
+      </fileset>
+    </copy>
+  	
+     <!-- copy in images -->
+    <copy todir="${basedir}/debug/images">
+      <fileset dir="${basedir}/images">
+         <include name="**/*" />
+      </fileset>
+    </copy>
+  	
+    <!-- copy in html -->
+    <copy file="${basedir}/html/base.html" toFile="${basedir}/debug/index.html"/>
+  </target>
+	
+  <target name="debug_closure" depends="generate_palettes">
+  	<delete dir="${basedir}/debug"/>
+    <mkdir dir="${basedir}/debug"/>
+    <mkdir dir="${basedir}/debug/js"/>
+  	
+  	<exec dir="${basedir}" executable="python" failonerror="true" >
+        <arg line="../ClosureLibrary/closure/bin/build/closurebuilder.py 
+          --root=../ClosureLibrary/closure/ 
+          --root=../ClosureLibrary/third_party/ 
+          --root=js/ 
+          --namespace='gfd.start'  
+          --output_mode=script 
+          --output_file=${basedir}/debug/js/gfd.js" />
+    </exec>
+  	
+  	<copy todir="${basedir}/debug/js">
+      <fileset dir="${basedir}/external-js">
+         <include name="**/*" />
+      </fileset>
+    </copy>
+
+     <!-- copy in css -->
+    <concat destfile="${basedir}/debug/css/gfd.css">
+      <fileset dir="${basedir}/css">
+         <include name="**/*.css" />
+      </fileset>
+    </concat>
+  	
+  	<copy todir="${basedir}/debug/css">
+      <fileset dir="${basedir}/css">
+         <include name="**/*.fs" />
+      	<include name="**/*.shader" />
+      </fileset>
+    </copy>
+    
+     <!-- copy in images -->
+    <copy todir="${basedir}/debug/images">
+      <fileset dir="${basedir}/images">
+         <include name="**/*" />
+      </fileset>
+    </copy>
+    
+    <!-- copy in html -->
+    <copy file="${basedir}/html/base.html" toFile="${basedir}/debug/index.html"/>
+  </target>
+	
+	
+	<target name="release_closure" depends="generate_palettes">
+	    <delete dir="${basedir}/release"/>
+	    <mkdir dir="${basedir}/release"/>
+	    <mkdir dir="${basedir}/release/js"/>
+
+	    <exec dir="${basedir}" executable="python" failonerror="true" >
+	        <arg line="../ClosureLibrary/closure/bin/build/closurebuilder.py 
+	          --root=../ClosureLibrary/closure/ 
+	          --root=../ClosureLibrary/third_party/ 
+	          --root=js/ 
+	          --namespace='gfd.start'  
+	          --output_mode=compiled 
+	        	--compiler_flags='--compilation_level=ADVANCED_OPTIMIZATIONS' 
+	        	--compiler_flags='--externs=js/externs.js' 
+	        	--compiler_flags='--externs=js/gl-matrix-externs.js' 
+	        	--compiler_jar=lib/compiler.jar 
+	          --output_file=${basedir}/release/js/gfd.js" />
+	    </exec>
+
+	    <copy todir="${basedir}/release/js">
+	      <fileset dir="${basedir}/external-js">
+	         <include name="**/*" />
+	      </fileset>
+	    </copy>
+
+	     <!-- copy in css -->
+	    <concat destfile="${basedir}/release/css/gfd.css">
+	      <fileset dir="${basedir}/css">
+	         <include name="**/*.css" />
+	      </fileset>
+	    </concat>
+	    
+	    <copy todir="${basedir}/release/css">
+	      <fileset dir="${basedir}/css">
+	         <include name="**/*.fs" />
+	        <include name="**/*.shader" />
+	      </fileset>
+	    </copy>
+	    
+	     <!-- copy in images -->
+	    <copy todir="${basedir}/release/images">
+	      <fileset dir="${basedir}/images">
+	         <include name="**/*" />
+	      </fileset>
+	    </copy>
+	    
+	    <!-- copy in html -->
+	    <copy file="${basedir}/html/base.html" toFile="${basedir}/release/index.html"/>
+	  </target>
+ 
+  <target name="launch_debug" depends="debug_closure">
+    <exec executable="open" spawn="yes">  
+         <arg line='-a "Google Chrome"' />  
+         <arg line="${basedir}/debug/index.html" />  
+    	  
+    </exec> 
+  </target>
+	
+	<target name="launch_release" depends="release_closure">
+	    <exec executable="open" spawn="yes">  
+	         <arg line='-a "Google Chrome"' />  
+	         <arg line="${basedir}/release/index.html" />  
+	    </exec> 
+	  </target>
+  
+</project>

@@ -1,0 +1,126 @@
+<html>
+<head>
+  <link rel="stylesheet" href="css/gfd.css">
+  <script>
+    CLOSURE_NO_DEPS = true;
+  </script>
+
+  <script src="js/gl-matrix-min.js"></script>
+  <script src="js/gfd.js"></script>
+</head>
+<body>
+  <div id='gfd-container'>
+    <div id='gfd-header'>
+      <span>Abstract Painting with CSS Filters</span>
+      <img id='gfd-help-button' src='images/help.png' />
+      <div id='gfd-help'>
+        <h1>CSS Filters can do more than you knew.</h1>
+        <p>CSS Filters let web developers easily apply beautiful visual filter effects to any elements on a web page. In modern browsers like Google Chrome these filter effects are hardware accelerated for speed, allowing them to be applied effectively to animated elements like WebGL, &lt;video&gt; tags, and Canvas2D. CSS Filters' simplicity allow them to be applied with just one line of CSS!</p>
+        <div class='examples'>
+          <div>
+            <div class='name'>Draw</div>
+            <div class='example draw'></div>
+            <div>Start by selecting a tool from the right and start drawing on the canvas with your mouse.</div>
+          </div>
+          <div>
+            <div class='name'>Explore</div>
+            <div class='example explore'></div>
+            <div>You can drag effects from the effects bar to apply different effects to elements.</div>
+          </div>
+          <div>
+            <div class='name'>Share</div>
+            <div class='example share'></div>
+            <div>Click on the share button to share your creation with your friends!</div>
+          </div>
+        </div>
+      </div>
+      <div style='float:right;'><span style='position: relative; top: 10px;'><g:plusone annotation='inline' width='120'></g:plusone></span><button id='gfd-save'>Share Your Creation</button></div>
+    </div>
+    <div id='gfd-artboard'></div>
+    <div id='gfd-toolbar'>
+      <div class='label'>Painting Tools</div>
+      <div>
+        <div class='tool' data-brush='cutout-painter'>
+          <div>Paper Cutter</div>
+          <div>A WebGL-based tool for creating paper cut-out shapes from your paths. This tool works best with closed, overlapping shapes.</div>
+        </div>
+        <div class='tool' data-brush='line-splatter'>
+          <div>Tri Line</div>
+          <div>Another WebGL-based tool that creates noisy 3D geometry based on drawn paths.</div>
+        </div>
+        <div class='tool' data-brush='rainbow-surfer'>
+          <div>Concentric Pen</div>
+          <div>This tool operates on the Canvas Element by mapping paths to concentric circles similar to a rainbow pattern, depending on the the type of stroke (angle, length, shape).</div>
+        </div>
+        <div class='tool' data-brush='gesture-shaper'>
+          <div>Geo Shaper</div>
+          <div>This tool creates animated, geometric, SVG elements. It only uses the size of the area drawn to create the shape.</div>
+        </div>
+        <div class='tool' data-brush='transform'>
+          <div>Move</div>
+          <div>Allows dragging and selecting of objects.</div>
+        </div>
+        <div class='tool' data-brush='delete'>
+          <div>Delete</div>
+          <div>Clicking on an element with this tool selected will delete it.</div>
+        </div>
+      </div>
+      <div id='gfd-filter-info'>
+        <div>CSS:</div>
+        <div id='gfd-filter-info-css'></div>
+        <div id='gfd-filter-info-desc'></div>
+      </div>
+    </div>
+
+    <div id='gfd-options'>
+      <div id='gfd-palettes' class='gfd-options'>
+        <div class='gfd-options-header'>Palette: <span class='gfd-options-selection'>None</span></div>
+        <div class='gfd-options-content'>
+          <div data-palette='stuart-davis'>Stuart Davis</div>
+          <div data-palette='frank-stella'>Frank Stella</div>
+          <div data-palette='lewitt'>Lewitt</div>
+          <div data-palette='bw'>Black & White</div>
+          <div data-palette='mondrian'>Mondrian</div>
+          <div data-palette='rainbow'>Rainbow</div>
+        </div>
+      </div>
+      <div id='gfd-backgrounds' class='gfd-options'>
+        <div class='gfd-options-header'>Background: <span class='gfd-options-selection'>None</span></div>
+        <div class='gfd-options-content'>
+          <div data-background='paper'>Paper</div>
+          <div data-background='wood'>Wood</div>
+          <div data-background='light'>Light</div>
+          <div data-background='dark'>Dark</div>
+          <div data-background='video'>Video (Ammon Rost)</div>
+          <!--<div data-background='glsl'>GLSL</div>-->
+        </div>
+      </div>
+      <div id='gfd-effects' class='gfd-options'>
+        <div class='gfd-options-header'>Effects: Drag To Apply<!-- <span id='gfd-effects-header-add'>[create]</span>--></div>
+        <div class='gfd-options-content'>
+          <div data-effect='none' data-css='none' data-tooltip='No filters applied.'>No Filter</div>
+          <div data-effect='dostoevsky' data-css='invert(49%) contrast(300%) sepia(100%) saturate(400%) hue-rotate(0-360deg)' data-tooltip='Animated color silhouette.'>Dostoevsky</div>
+          <div data-effect='plasma' data-css='hue-rotate(0~360deg) blur(20px) contrast(1000%)' data-tooltip='Animated hue-rotate filter followed by blur and contrast.'>Plasma</div>
+          <div data-effect='blur' data-css='blur(50px) contrast(200%)' data-tooltip='Static blur filter followed by high contrast.'>Blur</div>
+          <div data-effect='neon' data-css='invert(10%) saturate(1000%)' data-tooltip='Static invert filter followed by high contrast.'>Neon</div>
+          <div data-effect='architect' data-css='sepia(80%) hue-rotate(300deg) saturate(20%) contrast(150%)' data-tooltip='Creates a monotone look.'>Architect</div>
+          <div data-effect='pastels' data-css='grayscale(40%) brightness(-47%) invert(89%) saturate(800%)' data-tooltip='Saturates a grayscale filter for a pastel effect.'>Pastels</div>
+          <div data-effect='airbrush' data-css='blur(10px) brightness(10%) contrast(155%) saturate(200%)' data-tooltip='Another spraypaint effect.'>AirBrush</div>
+          <div data-effect='haze' data-css='hue-rotate(180deg) blur(10px) brightness(-6%) contrast(690%)' data-tooltip='Something hazy.'>Haze</div>
+          <div data-effect='benglis' data-css='blur(10px) contrast(200%) invert(30%) saturate(800%)' data-tooltip='Polyurethane sculpture.'>Benglis</div>
+          <div data-effect='xray' data-css='invert(0-100%) grayscale(100%) contrast(300%)' data-tooltip='Inverts back and forth.'>X-Ray</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type='text/javascript'>
+    gfd.start();
+  
+    (function() {
+      var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+      po.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+    })();
+  </script>
+</body>
+</html>

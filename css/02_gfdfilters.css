@@ -1,0 +1,92 @@
+/* the photo to be animated via filters */
+.gfd-effect-hue-cycle {
+  -webkit-animation: hue-rotate-anim 2s linear infinite alternate;
+}
+
+.gfd-effect-plasma {
+  -webkit-animation: plasma-anim 5s linear infinite;
+}
+
+.gfd-effect-blur {
+  -webkit-filter: blur(50px) contrast(200%);
+}
+
+.gfd-effect-neon {
+  -webkit-filter: invert(10%) saturate(1000%);
+}
+
+.gfd-effect-xray {
+  -webkit-animation: invert-anim 1s linear infinite alternate;
+}
+
+.gfd-effect-benglis {
+  -webkit-filter: blur(10px) contrast(200%) invert(30%) saturate(800%);
+}
+
+.gfd-effect-architect {
+  -webkit-filter: sepia(80%) hue-rotate(300deg) saturate(20%) contrast(150%);
+}
+
+.gfd-effect-dostoevsky {
+  -webkit-animation: dostoevsky-anim 0.5s linear infinite;
+}
+
+.gfd-effect-pastels {
+  -webkit-filter: grayscale(40%) brightness(-47%) invert(89%) saturate(800%);
+}
+
+.gfd-effect-airbrush {
+  -webkit-filter: blur(10px) brightness(10%);
+}
+
+.gfd-effect-haze {
+  -webkit-filter: blur(40px) brightness(-6%) contrast(690%);
+}
+
+@-webkit-keyframes hue-rotate-anim {
+  0% {
+    -webkit-filter: hue-rotate(0deg);
+  }
+  100% {
+    -webkit-filter: hue-rotate(360deg);
+  }
+}
+
+@-webkit-keyframes dostoevsky-anim {
+ from {
+    -webkit-filter: invert(49%) contrast(300%) sepia(100%) saturate(400%) hue-rotate(0deg);
+ }
+ 
+ to {
+ 	-webkit-filter: invert(49%) contrast(300%) sepia(100%) saturate(400%) hue-rotate(360deg);
+ }
+}
+
+
+
+@-webkit-keyframes plasma-anim {
+  0% {
+    -webkit-filter: hue-rotate(0deg) blur(20px) contrast(1000%);
+  }
+  100% {
+    -webkit-filter: hue-rotate(360deg) blur(20px) contrast(1000%);
+  }
+}
+
+@-webkit-keyframes invert-anim {
+  0% {
+    -webkit-filter: invert(0%) grayscale(100%) contrast(300%);
+  }
+  
+  40% {
+    -webkit-filter: invert(0%) grayscale(100%) contrast(300%);
+  }
+  
+  60% {
+    -webkit-filter: invert(100%) grayscale(100%) contrast(300%);
+  }
+
+  100% {
+    -webkit-filter: invert(100%) grayscale(100%) contrast(300%);
+  }
+}
